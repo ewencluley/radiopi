@@ -53,6 +53,7 @@ x = 0
 font_big = ImageFont.truetype('font/enhanced_dot_digital-7.ttf', 16)
 font = ImageFont.truetype('font/04B_08.ttf', 8)
 AdminServer.start_in_background()
+
 try:
     while True:
         # Draw a black filled box to clear the image.
@@ -68,12 +69,16 @@ try:
         Disk = subprocess.check_output(cmd, shell=True)
         Clock.update()
         time_str = Clock.get_time()
+        alarm = Clock.get_alarm()
+        alarm_str = f'{str(alarm.hour).zfill(2)}:{str(alarm.minute).zfill(2)} [{Clock.get_days_str(alarm.day_of_week)}]'
 
         # Write two lines of text.
         draw.text((20, top), time_str, font=font_big, fill=255)
         # draw.text((x, top + 8), str(CPU), font=font, fill=255)
-        if Clock.should_alarm():
-            draw.text((x, top + 16), 'ALARM', font=font, fill=255)
+        if Clock.should_alarm() and Clock.on_beat():
+            draw.text((x, top + 16), '*** ALARM ***', font=font, fill=255)
+        elif alarm.enabled:
+            draw.text((x, top + 16), alarm_str, font=font, fill=255)
         draw.text((x, top + 25), str(IP), font=font, fill=255)
 
         # Display image.
@@ -81,4 +86,4 @@ try:
         disp.display()
         time.sleep(0.01)
 except KeyboardInterrupt:
-    admin_server.shutdown()
+    AdminServer.shutdown()

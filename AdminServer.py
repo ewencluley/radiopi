@@ -27,13 +27,29 @@ def set_alarm():
         time = data['time']
         if not time:
             return
-        hour = int(time.split(':')[0])
-        minute = int(time.split(':')[1])
-        days_of_week = data['daysOfWeek']
-        return Clock.Alarm(hour=hour, minute=minute, day_of_week=days_of_week)
+        return Clock.Alarm(
+            hour=int(time.split(':')[0]),
+            minute=int(time.split(':')[1]),
+            day_of_week=data['daysOfWeek'],
+            enabled=data['enabled'])
     alarm = process_body(request.json)
     Clock.set_alarm(alarm)
-    return f'Hello, Flask! {alarm}'
+    return json.dumps(
+        {'time': f'{alarm.hour}:{alarm.minute}', 'daysOfWeek': alarm.day_of_week, 'enabled': alarm.enabled}
+    )
+
+
+@app.route("/api/v1/alarm", methods=['GET'])
+def get_alarm():
+    alarm = Clock.get_alarm()
+    json_resp = json.dumps(
+        {
+            'time': f'{str(alarm.hour).zfill(2)}:{str(alarm.minute).zfill(2)}',
+            'daysOfWeek': alarm.day_of_week,
+            'enabled': alarm.enabled
+        }
+    )
+    return json_resp
 
 
 def serve():
