@@ -47,12 +47,7 @@ def set_alarm():
         )
     alarm = process_body(request.json)
     Clock.set_alarm(alarm)
-    return json.dumps({
-        'time': f'{alarm.hour}:{alarm.minute}',
-        'daysOfWeek': alarm.day_of_week,
-        'enabled': alarm.enabled,
-        'durationMinutes': alarm.duration_minutes
-    })
+    return json.dumps({'status': 'OK'})
 
 
 @app.route("/api/v1/alarm", methods=['GET'])
@@ -69,6 +64,13 @@ def get_alarm():
     return json_resp
 
 
+@app.route("/api/v1/alarm/stop", methods=['POST'])
+def stop_alarm():
+    if Clock.stop_alarm():
+        return json.dumps({'status': 'OK'})
+    return 400, json.dumps({'status': 'ALARM_NOT_SOUNDING'})
+
+
 @app.route("/api/v1/radio/", methods=['POST'])
 def set_radio():
     radio_on = request.json['radioOn']
@@ -76,7 +78,7 @@ def set_radio():
         Radio.play()
     elif not radio_on and Radio.is_playing():
         Radio.stop()
-    return request.json
+    return json.dumps({'status': 'OK'})
 
 
 @app.route("/api/v1/radio/", methods=['GET'])

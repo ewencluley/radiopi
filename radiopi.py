@@ -9,6 +9,7 @@ import AdminServer
 from drive import SPI
 from drive import SSD1305
 import Clock
+import Radio
 
 # Raspberry Pi pin configuration:
 RST = None  # on the PiOLED this pin isnt used
@@ -75,7 +76,12 @@ try:
         # Write two lines of text.
         draw.text((20, top), time_str, font=font_big, fill=255)
         # draw.text((x, top + 8), str(CPU), font=font, fill=255)
-        if Clock.should_alarm() and Clock.on_beat():
+        if Clock.maybe_trigger_alarm() and not Radio.is_playing():
+            Radio.play(triggered_by_alarm=True)
+        Clock.maybe_stop_alarm()
+        if not Clock.alarm_is_on() and Radio.is_playing() and Radio.was_triggered_by_alarm():
+            Radio.stop()
+        if Clock.alarm_is_on() and Clock.on_beat():
             draw.text((x, top + 16), '*** ALARM ***', font=font, fill=255)
         elif alarm.enabled:
             draw.text((x, top + 16), alarm_str, font=font, fill=255)

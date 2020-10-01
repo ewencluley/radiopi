@@ -26,6 +26,14 @@ $(document).ready(function() {
                 saving_complete();
             });
     })
+    $("#stopAlarm").on('click',function(event) {
+        if (isLoading()) {
+            return;
+        }
+        saving();
+        let url = "/api/v1/alarm/stop"
+        ajaxCallRequest('POST', url, null, saving_complete);
+    })
     loading()
     ajaxCallRequest("GET", "/api/v1/alarm", null, function (data) {
                 $("#alarmTime").val(data.time);

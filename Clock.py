@@ -7,6 +7,8 @@ Alarm = namedtuple("Alarm", "day_of_week, hour minute enabled duration_minutes")
 
 class Clock:
     current_time = datetime.now()
+    alarm: Alarm
+    alarm_in_progress:Alarm = None
 
     def __init__(self) -> None:
         self.alarm = Clock._load_alarm()
@@ -37,16 +39,37 @@ def get_time():
     return clock.current_time.strftime("%H:%M:%S")
 
 
-def should_alarm():
-    if not clock.alarm or not clock.alarm.enabled:
+def maybe_trigger_alarm():
+    if clock.alarm_in_progress or not clock.alarm or not clock.alarm.enabled:
         return False
     if not clock.current_time.weekday() in clock.alarm.day_of_week:
         return False
-    now = datetime.now()
-    alarm_start = now.replace(hour=clock.alarm.hour, minute=clock.alarm.minute, second=0, microsecond=0)
-    alarm_end = alarm_start + timedelta(minutes=clock.alarm.duration_minutes)
+    alarm_trigger_start = clock.current_time.replace(hour=clock.alarm.hour, minute=clock.alarm.minute, second=0, microsecond=0)
+    alarm_trigger_end = alarm_trigger_start + timedelta(seconds=1)
+    if alarm_trigger_start <= clock.current_time <= alarm_trigger_end:
+        clock.alarm_in_progress = clock.alarm
+        return True
 
-    return alarm_start < now < alarm_end
+
+def alarm_is_on() -> bool:
+    return clock.alarm_in_progress
+
+
+def maybe_stop_alarm():
+    if not clock.alarm_in_progress:
+        return False
+    alarm_start = clock.current_time.replace(hour=clock.alarm.hour, minute=clock.alarm.minute, second=0, microsecond=0)
+    alarm_end = alarm_start + timedelta(minutes=clock.alarm_in_progress.duration_minutes)
+    if clock.current_time > alarm_end:
+        clock.alarm_in_progress = None
+        return True
+
+
+def stop_alarm():
+    if not clock.alarm_in_progress:
+        return False
+    clock.alarm_in_progress = None
+    return True
 
 
 def set_alarm(alarm: Alarm):
