@@ -1,6 +1,7 @@
 from threading import Thread
 from flask import Flask, request, send_from_directory
 import Clock
+import Radio
 import json
 
 app = Flask(__name__)
@@ -47,6 +48,26 @@ def get_alarm():
             'time': f'{str(alarm.hour).zfill(2)}:{str(alarm.minute).zfill(2)}',
             'daysOfWeek': alarm.day_of_week,
             'enabled': alarm.enabled
+        }
+    )
+    return json_resp
+
+
+@app.route("/api/v1/radio/", methods=['POST'])
+def set_radio():
+    radio_on = request.json['radioOn']
+    if radio_on and not Radio.is_playing():
+        Radio.play()
+    elif not radio_on and Radio.is_playing():
+        Radio.stop()
+    return request.json
+
+
+@app.route("/api/v1/radio/", methods=['GET'])
+def get_radio():
+    json_resp = json.dumps(
+        {
+            'radioOn': Radio.is_playing()
         }
     )
     return json_resp
