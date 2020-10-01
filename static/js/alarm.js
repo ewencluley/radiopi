@@ -1,8 +1,11 @@
 $(document).ready(function() {
 
+    $("#alarmForm").on('submit', event => event.preventDefault());
     $("#alarmForm").on('change',function(event) {
+        if (isLoading()) {
+            return;
+        }
         saving();
-        event.preventDefault();
         let form = $('#alarmForm');
         let method = form.attr('method');
         let url = form.attr('action');
@@ -22,8 +25,8 @@ $(document).ready(function() {
                 $("#results").val(unescape(jsonResult));
                 saving_complete();
             });
-    });
-
+    })
+    loading()
     ajaxCallRequest("GET", "/api/v1/alarm", null, function (data) {
                 $("#alarmTime").val(data.time);
                 $("#alarmDuration").val(data.durationMinutes);
@@ -31,5 +34,6 @@ $(document).ready(function() {
                     $("#daysOfWeek :input[value=" + i + "]").prop('checked', data.daysOfWeek.includes(i))
                 }
                 $("#alarmEnabled").prop('checked', data.enabled).change()
+                loading_complete()
             })
 });
