@@ -16,7 +16,7 @@
   <body>
     <div class="container">
       <h1 class="jumbotron">
-        Radio Pi <input type="checkbox" checked data-toggle="toggle" data-size="lg" id="radio" name="radio"> <i id="savingIcon" class="fas fa-check-circle fa-align-right"></i>
+        Radio Pi <i id="savingIcon" class="fas fa-check-circle fa-align-right"></i>
       </h1>
 
       <form method="POST" action="/api/v1/alarm" id="alarmForm">
@@ -33,42 +33,47 @@
               <small id="alarmDurationHelp" class="form-text text-muted">Alarm duration (mins)</small>
             </div>
           </div>
-          <div class="btn-group btn-group-toggle" data-toggle="buttons" id="daysOfWeek">
-            <label class="btn btn-secondary">
-                <input type="checkbox" autocomplete="off" name="dayOfWeek[]" value="0"> M
-            </label>
-            <label class="btn btn-secondary">
-                <input type="checkbox" autocomplete="off" name="dayOfWeek[]" value="1"> T
-            </label>
-            <label class="btn btn-secondary">
-                <input type="checkbox" autocomplete="off" name="dayOfWeek[]" value="2"> W
-            </label>
-            <label class="btn btn-secondary">
-                <input type="checkbox" autocomplete="off" name="dayOfWeek[]" value="3"> T
-            </label>
-            <label class="btn btn-secondary">
-                <input type="checkbox" autocomplete="off" name="dayOfWeek[]" value="4"> F
-            </label>
-            <label class="btn btn-secondary">
-                <input type="checkbox" autocomplete="off" name="dayOfWeek[]" value="5"> S
-            </label>
-            <label class="btn btn-secondary">
-                <input type="checkbox" autocomplete="off" name="dayOfWeek[]" value="6"> S
-            </label>
-          </div>
-          <div class="row">
+          <div class="form-group row">
+            <div class="col btn-group btn-group-toggle" data-toggle="buttons" id="daysOfWeek">
+              <label class="btn btn-secondary">
+                  <input type="checkbox" autocomplete="off" name="dayOfWeek[]" value="0"> M
+              </label>
+              <label class="btn btn-secondary">
+                  <input type="checkbox" autocomplete="off" name="dayOfWeek[]" value="1"> T
+              </label>
+              <label class="btn btn-secondary">
+                  <input type="checkbox" autocomplete="off" name="dayOfWeek[]" value="2"> W
+              </label>
+              <label class="btn btn-secondary">
+                  <input type="checkbox" autocomplete="off" name="dayOfWeek[]" value="3"> T
+              </label>
+              <label class="btn btn-secondary">
+                  <input type="checkbox" autocomplete="off" name="dayOfWeek[]" value="4"> F
+              </label>
+              <label class="btn btn-secondary">
+                  <input type="checkbox" autocomplete="off" name="dayOfWeek[]" value="5"> S
+              </label>
+              <label class="btn btn-secondary">
+                  <input type="checkbox" autocomplete="off" name="dayOfWeek[]" value="6"> S
+              </label>
+            </div>
             <div class="col">
-              <div class="form-check">
-                <input type="checkbox" checked data-toggle="toggle" data-size="lg" id="alarmEnabled" name="alarmEnabled">
-              </div>
+                <input type="checkbox" checked data-toggle="toggle" id="alarmEnabled" name="alarmEnabled">
             </div>
           </div>
         </fieldset>
       </form>
+      <form method="POST" action="/api/v1/radio" id="radioForm">
+        <div class="row form-group">
+          <div class="col">
+            <label for="radio">Radio</label>
+            <input type="checkbox" checked data-toggle="toggle" id="radio" name="radio">
+          </div>
+        </div>
+      </form>
     </div>
 
     <div id="results">
-
     </div>
 
     <!-- Optional JavaScript -->
