@@ -31,7 +31,10 @@ $(document).ready(function() {
                 $("#alarmTime").val(data.time);
                 $("#alarmDuration").val(data.durationMinutes);
                 for (let i = 0; i < 7; i++) {
-                    $("#daysOfWeek :input[value=" + i + "]").prop('checked', data.daysOfWeek.includes(i))
+                    if (data.daysOfWeek.includes(i)) {
+                        $("#daysOfWeek :input[value=" + i + "]").attr('checked', true)
+                        $("#daysOfWeek :input[value=" + i + "]").parent().addClass('active')
+                    }
                 }
                 $("#alarmEnabled").prop('checked', data.enabled).change()
                 loading_complete()
