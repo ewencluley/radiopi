@@ -7,6 +7,11 @@ import json
 app = Flask(__name__)
 
 
+@app.route('/')
+def send_index():
+    return send_from_directory('static', 'index.html')
+
+
 @app.route('/<path>')
 def send_root(path):
     return send_from_directory('static', path)
@@ -15,6 +20,11 @@ def send_root(path):
 @app.route('/js/<path>')
 def send_js(path):
     return send_from_directory('static/js', path)
+
+
+@app.route('/css/<path>')
+def send_css(path):
+    return send_from_directory('static/css', path)
 
 
 @app.route('/images/<path>')
