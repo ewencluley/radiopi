@@ -1,12 +1,12 @@
-import time
+from datetime import datetime, timedelta
 from collections import namedtuple
 import json
 
-Alarm = namedtuple("Alarm", "day_of_week, hour minute enabled")
+Alarm = namedtuple("Alarm", "day_of_week, hour minute enabled duration_minutes")
 
 
 class Clock:
-    current_time = time.localtime()
+    current_time = datetime.now()
 
     def __init__(self) -> None:
         self.alarm = Clock._load_alarm()
@@ -22,26 +22,31 @@ class Clock:
             with open("alarm.json", "r") as f:
                 serialized_alarm = f.read()
                 return Alarm(**json.loads(serialized_alarm))
-        except FileNotFoundError:
-            return Alarm(hour=0, minute=0, day_of_week=[], enabled=False)
+        except FileNotFoundError or TypeError:
+            return Alarm(hour=0, minute=0, day_of_week=[], enabled=False, duration_minutes=0)
 
 
 clock = Clock()
 
 
 def update():
-    clock.current_time = time.localtime()
+    clock.current_time = datetime.now()
 
 
 def get_time():
-    return time.strftime("%H:%M:%S", clock.current_time)
+    return clock.current_time.strftime("%H:%M:%S")
 
 
 def should_alarm():
-    return clock.alarm and clock.alarm.enabled \
-           and (clock.current_time.tm_wday in clock.alarm.day_of_week) \
-           and (clock.current_time.tm_hour == clock.alarm.hour) \
-           and (clock.current_time.tm_min == clock.alarm.minute)
+    if not clock.alarm or not clock.alarm.enabled:
+        return False
+    if not clock.current_time.weekday() in clock.alarm.day_of_week:
+        return False
+    now = datetime.now()
+    alarm_start = now.replace(hour=clock.alarm.hour, minute=clock.alarm.minute, second=0, microsecond=0)
+    alarm_end = alarm_start + timedelta(minutes=clock.alarm.duration_minutes)
+
+    return alarm_start < now < alarm_end
 
 
 def set_alarm(alarm: Alarm):
@@ -54,7 +59,7 @@ def get_alarm():
 
 
 def on_beat():
-    return clock.current_time.tm_sec % 2 == 0
+    return clock.current_time.second % 2 == 0
 
 
 def get_days_str(ordinals):

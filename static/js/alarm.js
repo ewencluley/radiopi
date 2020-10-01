@@ -14,6 +14,7 @@ $(document).ready(function() {
             time: $("#alarmTime").val(),
             daysOfWeek: daysOfWeek,
             enabled: $("#alarmEnabled").prop('checked'),
+            durationMinutes: $("#alarmDuration").val()
         }
         let data = JSON.stringify(alarm);
         ajaxCallRequest(method, url, data, function (data) {
@@ -25,6 +26,7 @@ $(document).ready(function() {
 
     ajaxCallRequest("GET", "/api/v1/alarm", null, function (data) {
                 $("#alarmTime").val(data.time);
+                $("#alarmDuration").val(data.durationMinutes);
                 for (let i = 0; i < 7; i++) {
                     $("#daysOfWeek :input[value=" + i + "]").prop('checked', data.daysOfWeek.includes(i))
                 }

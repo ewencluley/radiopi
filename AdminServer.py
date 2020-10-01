@@ -32,12 +32,17 @@ def set_alarm():
             hour=int(time.split(':')[0]),
             minute=int(time.split(':')[1]),
             day_of_week=data['daysOfWeek'],
-            enabled=data['enabled'])
+            enabled=data['enabled'],
+            duration_minutes=int(data['durationMinutes'])
+        )
     alarm = process_body(request.json)
     Clock.set_alarm(alarm)
-    return json.dumps(
-        {'time': f'{alarm.hour}:{alarm.minute}', 'daysOfWeek': alarm.day_of_week, 'enabled': alarm.enabled}
-    )
+    return json.dumps({
+        'time': f'{alarm.hour}:{alarm.minute}',
+        'daysOfWeek': alarm.day_of_week,
+        'enabled': alarm.enabled,
+        'durationMinutes': alarm.duration_minutes
+    })
 
 
 @app.route("/api/v1/alarm", methods=['GET'])
@@ -47,7 +52,8 @@ def get_alarm():
         {
             'time': f'{str(alarm.hour).zfill(2)}:{str(alarm.minute).zfill(2)}',
             'daysOfWeek': alarm.day_of_week,
-            'enabled': alarm.enabled
+            'enabled': alarm.enabled,
+            'durationMinutes': alarm.duration_minutes
         }
     )
     return json_resp
