@@ -20,7 +20,6 @@
 # THE SOFTWARE.
 
 import operator
-import time
 
 from . import GPIO
 

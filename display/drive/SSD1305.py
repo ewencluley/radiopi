@@ -3,7 +3,6 @@ from __future__ import division
 import logging
 import time
 
-from . import I2C
 from . import SPI
 from . import GPIO
 
