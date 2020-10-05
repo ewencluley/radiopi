@@ -26,9 +26,11 @@ try:
         display.draw_text((20, 0), time_str, font=Display.big_font)
         if Clock.maybe_trigger_alarm() and not Radio.is_playing():
             Radio.play(triggered_by_alarm=True)
+            AdminServer.broadcast_state()
         Clock.maybe_stop_alarm()
         if not Clock.alarm_is_on() and Radio.is_playing() and Radio.was_triggered_by_alarm():
             Radio.stop()
+            AdminServer.broadcast_state()
         if Clock.alarm_is_on() and Clock.on_beat():
             display.draw_text((0, 16), '*** ALARM ***', font=Display.small_font)
         elif alarm.enabled:
@@ -37,6 +39,6 @@ try:
         display.draw_text((0, 25), str(IP), font=Display.small_font)
 
         display.update()
-        time.sleep(0.01)
+        time.sleep(0.10)
 except KeyboardInterrupt:
     AdminServer.shutdown()

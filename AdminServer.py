@@ -3,8 +3,10 @@ from flask import Flask, request, send_from_directory
 import Clock
 import Radio
 import json
+from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
+socketio = SocketIO(app)
 
 
 @app.route('/')
@@ -47,28 +49,16 @@ def set_alarm():
         )
     alarm = process_body(request.json)
     Clock.set_alarm(alarm)
+    broadcast_state()
     return json.dumps({'status': 'OK'})
-
-
-@app.route("/api/v1/alarm", methods=['GET'])
-def get_alarm():
-    alarm = Clock.get_alarm()
-    json_resp = json.dumps(
-        {
-            'time': f'{str(alarm.hour).zfill(2)}:{str(alarm.minute).zfill(2)}',
-            'daysOfWeek': alarm.day_of_week,
-            'enabled': alarm.enabled,
-            'durationMinutes': alarm.duration_minutes
-        }
-    )
-    return json_resp
 
 
 @app.route("/api/v1/alarm/stop", methods=['POST'])
 def stop_alarm():
     if Clock.stop_alarm():
         return json.dumps({'status': 'OK'})
-    return 400, json.dumps({'status': 'ALARM_NOT_SOUNDING'})
+    broadcast_state()
+    return json.dumps({'status': 'ALARM_NOT_SOUNDING'}), 400
 
 
 @app.route("/api/v1/radio/", methods=['POST'])
@@ -78,21 +68,35 @@ def set_radio():
         Radio.play()
     elif not radio_on and Radio.is_playing():
         Radio.stop()
+    broadcast_state()
     return json.dumps({'status': 'OK'})
 
 
-@app.route("/api/v1/radio/", methods=['GET'])
-def get_radio():
-    json_resp = json.dumps(
-        {
-            'radioOn': Radio.is_playing()
+@socketio.on('connect')
+def client_connect_event():
+    print('client connected')
+    broadcast_state()
+
+
+def broadcast_state():
+    alarm = Clock.get_alarm()
+    state = {
+        'alarm': {
+            'time': f'{str(alarm.hour).zfill(2)}:{str(alarm.minute).zfill(2)}',
+            'daysOfWeek': alarm.day_of_week,
+            'enabled': alarm.enabled,
+            'durationMinutes': alarm.duration_minutes
+        },
+        'radio': {
+            'on': Radio.is_playing()
         }
-    )
-    return json_resp
+    }
+    socketio.emit('state_update', json.dumps(state))
 
 
 def serve():
-    app.run(host="0.0.0.0", port=8000)
+    # app.run(host="0.0.0.0", port=8000)
+    socketio.run(app, host="0.0.0.0", port=8000)
 
 
 def start_in_background():

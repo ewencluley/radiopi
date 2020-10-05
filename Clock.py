@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from collections import namedtuple
 import json
+from json.decoder import JSONDecodeError
 
 Alarm = namedtuple("Alarm", "day_of_week, hour minute enabled duration_minutes")
 
@@ -24,7 +25,7 @@ class Clock:
             with open("alarm.json", "r") as f:
                 serialized_alarm = f.read()
                 return Alarm(**json.loads(serialized_alarm))
-        except FileNotFoundError or TypeError:
+        except FileNotFoundError or TypeError or JSONDecodeError:
             return Alarm(hour=0, minute=0, day_of_week=[], enabled=False, duration_minutes=0)
 
 

@@ -7,9 +7,4 @@ $(document).ready(function() {
         saving();
         ajaxCallRequest("POST", "/api/v1/radio", JSON.stringify({"radioOn": $(this).prop('checked')}), saving_complete);
     });
-    loading();
-    ajaxCallRequest("GET", "/api/v1/radio", null, function (data) {
-                $("#radio").prop('checked', data.radioOn).change();
-                loading_complete();
-            })
 });

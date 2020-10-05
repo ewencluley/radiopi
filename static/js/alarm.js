@@ -34,17 +34,4 @@ $(document).ready(function() {
         let url = "/api/v1/alarm/stop"
         ajaxCallRequest('POST', url, null, saving_complete);
     })
-    loading()
-    ajaxCallRequest("GET", "/api/v1/alarm", null, function (data) {
-                $("#alarmTime").val(data.time);
-                $("#alarmDuration").val(data.durationMinutes);
-                for (let i = 0; i < 7; i++) {
-                    if (data.daysOfWeek.includes(i)) {
-                        $("#daysOfWeek :input[value=" + i + "]").attr('checked', true)
-                        $("#daysOfWeek :input[value=" + i + "]").parent().addClass('active')
-                    }
-                }
-                $("#alarmEnabled").prop('checked', data.enabled).change()
-                loading_complete()
-            })
 });
