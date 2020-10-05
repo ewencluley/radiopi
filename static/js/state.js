@@ -14,6 +14,7 @@ socket.on('state_update', function(data) {
         }
         $('#stopAlarm').prop('disabled', !state.alarm.isSounding)
         $("#radio").prop('checked', state.radio.on).change();
+        $('#time').html(state.time)
         loading_complete()
         console.log("inflight loading:", inflight_loading_requests)
 });

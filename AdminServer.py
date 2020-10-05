@@ -55,10 +55,12 @@ def set_alarm():
 
 @app.route("/api/v1/alarm/stop", methods=['POST'])
 def stop_alarm():
-    if Clock.stop_alarm():
-        return json.dumps({'status': 'OK'})
-    broadcast_state()
-    return json.dumps({'status': 'ALARM_NOT_SOUNDING'}), 400
+    try:
+        if Clock.stop_alarm():
+            return json.dumps({'status': 'OK'})
+        return json.dumps({'status': 'ALARM_NOT_SOUNDING'}), 400
+    finally:
+        broadcast_state()
 
 
 @app.route("/api/v1/radio/", methods=['POST'])
@@ -81,6 +83,7 @@ def client_connect_event():
 def broadcast_state():
     alarm = Clock.get_alarm()
     state = {
+        'time': Clock.get_time(),
         'alarm': {
             'time': f'{str(alarm.hour).zfill(2)}:{str(alarm.minute).zfill(2)}',
             'daysOfWeek': alarm.day_of_week,
