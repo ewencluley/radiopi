@@ -85,7 +85,8 @@ def broadcast_state():
             'time': f'{str(alarm.hour).zfill(2)}:{str(alarm.minute).zfill(2)}',
             'daysOfWeek': alarm.day_of_week,
             'enabled': alarm.enabled,
-            'durationMinutes': alarm.duration_minutes
+            'durationMinutes': alarm.duration_minutes,
+            'isSounding': Clock.alarm_is_on()
         },
         'radio': {
             'on': Radio.is_playing()

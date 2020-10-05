@@ -12,6 +12,7 @@ socket.on('state_update', function(data) {
                 $("#daysOfWeek :input[value=" + i + "]").parent().addClass('active')
             }
         }
+        $('#stopAlarm').prop('disabled', !state.alarm.isSounding)
         $("#radio").prop('checked', state.radio.on).change();
         loading_complete()
         console.log("inflight loading:", inflight_loading_requests)

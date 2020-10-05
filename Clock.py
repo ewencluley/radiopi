@@ -53,7 +53,7 @@ def maybe_trigger_alarm():
 
 
 def alarm_is_on() -> bool:
-    return clock.alarm_in_progress
+    return bool(clock.alarm_in_progress)
 
 
 def maybe_stop_alarm():
