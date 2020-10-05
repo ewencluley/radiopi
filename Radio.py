@@ -18,12 +18,18 @@ def is_playing() -> bool:
 
 
 def play(triggered_by_alarm=False):
-    state.triggered_by_alarm = triggered_by_alarm
-    subprocess.check_output(f'mpc clear && mpc add {URL} && mpc play', shell=True, stderr=subprocess.STDOUT)
+    try:
+        state.triggered_by_alarm = triggered_by_alarm
+        subprocess.check_output(f'mpc clear && mpc add {URL} && mpc play', shell=True, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError:
+        print("Something went wrong while playing radio")
 
 
 def stop():
-    subprocess.check_output(f'mpc stop && mpc clear', shell=True, stderr=subprocess.STDOUT)
+    try:
+        subprocess.check_output(f'mpc stop && mpc clear', shell=True, stderr=subprocess.STDOUT)
+    except subprocess.CalledProcessError:
+        print("Something went wrong while stopping radio")
 
 
 def was_triggered_by_alarm():
