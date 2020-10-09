@@ -40,6 +40,10 @@ def get_time():
     return clock.current_time.strftime("%H:%M:%S")
 
 
+def get_datetime():
+    return clock.current_time.isoformat()
+
+
 def maybe_trigger_alarm():
     if clock.alarm_in_progress or not clock.alarm or not clock.alarm.enabled:
         return False

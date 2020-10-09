@@ -83,7 +83,7 @@ def client_connect_event():
 def broadcast_state():
     alarm = Clock.get_alarm()
     state = {
-        'time': Clock.get_time(),
+        'time': Clock.get_datetime(),
         'alarm': {
             'time': f'{str(alarm.hour).zfill(2)}:{str(alarm.minute).zfill(2)}',
             'daysOfWeek': alarm.day_of_week,
@@ -97,6 +97,11 @@ def broadcast_state():
     }
     socketio.emit('state_update', json.dumps(state))
 
+
+@socketio.on('synchronize')
+def synchronize_request(data):
+    print('sync requested')
+    broadcast_state()
 
 def serve():
     # app.run(host="0.0.0.0", port=8000)
