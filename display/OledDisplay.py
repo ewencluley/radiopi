@@ -5,6 +5,7 @@ class OledDisplay(Display):
     from PIL import Image
     from PIL import ImageDraw
     from PIL import ImageFont
+    from display.drive import SSD1305, SPI
 
     # Raspberry Pi pin configuration:
     RST = None  # on the PiOLED this pin isnt used
@@ -15,8 +16,8 @@ class OledDisplay(Display):
 
     def __init__(self) -> None:
         # 128x32 display with hardware SPI:
-        self.disp = display.drive.SSD1305.SSD1305_128_32(
-            rst=self.RST, dc=self.DC, spi=display.drive.SPI.SpiDev(self.SPI_PORT, self.SPI_DEVICE, max_speed_hz=8000000)
+        self.disp = self.SSD1305.SSD1305_128_32(
+            rst=self.RST, dc=self.DC, spi=self.SPI.SpiDev(self.SPI_PORT, self.SPI_DEVICE, max_speed_hz=8000000)
         )
         self.disp.begin()
         self.disp.clear()

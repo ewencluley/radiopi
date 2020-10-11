@@ -15,6 +15,7 @@ except ModuleNotFoundError:
 
 try:
     while True:
+        display.clear()
         cmd = "hostname -I | cut -d\' \' -f1"
         IP = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
 
@@ -23,7 +24,7 @@ try:
         alarm = Clock.get_alarm()
         alarm_str = f'{str(alarm.hour).zfill(2)}:{str(alarm.minute).zfill(2)} [{Clock.get_days_str(alarm.day_of_week)}]'
 
-        display.draw_text((20, 0), time_str, font=Display.big_font)
+        display.draw_text((20, 0), time_str, font=display.big_font)
         if Clock.maybe_trigger_alarm() and not Radio.is_playing():
             Radio.play(triggered_by_alarm=True)
             AdminServer.broadcast_state()
@@ -32,11 +33,11 @@ try:
             Radio.stop()
             AdminServer.broadcast_state()
         if Clock.alarm_is_on() and Clock.on_beat():
-            display.draw_text((0, 16), '*** ALARM ***', font=Display.small_font)
+            display.draw_text((0, 16), '*** ALARM ***', font=display.small_font)
         elif alarm.enabled:
-            display.draw_text((0, 16), alarm_str, font=Display.small_font)
+            display.draw_text((0, 16), alarm_str, font=display.small_font)
 
-        display.draw_text((0, 25), str(IP), font=Display.small_font)
+        display.draw_text((0, 25), str(IP), font=display.small_font)
 
         display.update()
         time.sleep(0.10)
