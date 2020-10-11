@@ -22,19 +22,27 @@
       <form method="POST" action="/api/v1/alarm" id="alarmForm">
         <fieldset>
           <div class="form-group row">
-            <div class="col">
-              <label for="alarmTime">Alarm Time</label>
+            <div class="col input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="alarmTimeHelp">Time</span>
+              </div>
               <input type="time" class="form-control" id="alarmTime" name="alarmTime" aria-describedby="alarmTimeHelp">
-              <small id="alarmTimeHelp" class="form-text text-muted">Alarm time</small>
             </div>
-            <div class="col">
-              <label for="alarmDuration">Alarm Duration</label>
+            <div class="col input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="alarmDurationHelp">Duration</span>
+              </div>
               <input type="number" inputmode="numeric" class="form-control" id="alarmDuration" name="alarmDuration" aria-describedby="alarmDurationHelp" min="1" max="60">
-              <small id="alarmDurationHelp" class="form-text text-muted">Alarm duration (mins)</small>
+              <div class="input-group-append">
+              <span class="input-group-text">min</span>
+            </div>
             </div>
           </div>
           <div class="form-group row">
-            <div class="col btn-group btn-group-toggle" data-toggle="buttons" id="daysOfWeek">
+            <div class="col btn-group btn-group-toggle input-group" data-toggle="buttons" id="daysOfWeek">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="daysOfWeekHelp">Days</span>
+              </div>
               <label class="btn btn-secondary">
                   <input type="checkbox" autocomplete="off" name="dayOfWeek[]" value="0"> M
               </label>
@@ -57,12 +65,12 @@
                   <input type="checkbox" autocomplete="off" name="dayOfWeek[]" value="6"> S
               </label>
             </div>
-            <div class="col">
-                <input type="checkbox" checked data-toggle="toggle" id="alarmEnabled" name="alarmEnabled">
-            </div>
           </div>
           <div class="form-group row">
             <div class="col btn-group btn-group-toggle" data-toggle="buttons" id="alarmType">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="alarmTypeHelp">Alarm Type</span>
+              </div>
               <label class="btn btn-secondary">
                   <input type="radio" autocomplete="off" name="alarmType" value="0"> Random
               </label>
@@ -71,7 +79,12 @@
               </label>
             </div>
             <div class="col-auto">
-              <button class="btn btn-danger" id="stopAlarm">Stop Alarm</button>
+            <input type="checkbox" checked data-toggle="toggle" id="alarmEnabled" name="alarmEnabled">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <button class="col-12 btn btn-danger" id="stopAlarm">Stop Alarm</button>
             </div>
           </div>
         </fieldset>

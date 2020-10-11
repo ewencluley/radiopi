@@ -50,7 +50,7 @@ def play(triggered_by_alarm=None):
     try:
         if triggered_by_alarm:
             state.current_station = get_station_for_alarm(triggered_by_alarm)
-        state.triggered_by_alarm = triggered_by_alarm
+        state.triggered_by_alarm = bool(triggered_by_alarm)
         subprocess.check_output(f'mpc clear && mpc add {state.current_station.url} && mpc play', shell=True, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError:
         print("Something went wrong while playing radio")
