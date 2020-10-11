@@ -14,5 +14,41 @@
   {
     "name": "Country Hits Radio",
     "url": "https://stream-al.planetradio.co.uk/countryhits.aac"
+  },
+  {
+    "name": "Capitol Brighton",
+    "url": "http://icecast.thisisdax.com/CapitalBrightonMP3"
+  },
+  {
+    "name": "Heart Sussex",
+    "url": "http://icecast.thisisdax.com/HeartSussex"
+  },
+  {
+    "name": "Pirate Radio (Cornwall)",
+    "url": "http://str1.sad.ukrd.com/pirate.mp3"
+  },
+  {
+    "name": "Jazz FM",
+    "url": "http://tx.planetradio.co.uk/icecast.php?i=jazzhigh.aac"
+  },
+  {
+    "name": "MetalRadio.co.nz",
+    "url": "http://curiosity.shoutca.st:9073/stream"
+  },
+  {
+    "name": "Death.fm",
+    "url": "http://hi5.death.fm/"
+  },
+  {
+    "name": "Latina Fiesta",
+    "url": "http://d3-soundcast-edge-4.infomaniak.ch/latinafiesta.mp3"
+  },
+  {
+    "name": "LBC UK",
+    "url": "https://media-ssl.musicradio.com/LBCUK"
+  },
+  {
+    "name": "Vibes FM 93.8",
+    "url": "http://s02.whooshserver.net:9091/live?type=.mp3"
   }
 ]
