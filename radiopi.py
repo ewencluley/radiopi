@@ -16,8 +16,6 @@ except ModuleNotFoundError:
 try:
     while True:
         display.clear()
-        cmd = "hostname -I | cut -d\' \' -f1"
-        IP = subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
 
         Clock.update()
         time_str = Clock.get_time()
@@ -37,7 +35,7 @@ try:
         elif alarm.enabled:
             display.draw_text((0, 16), alarm_str, font=display.small_font)
 
-        display.draw_text((0, 25), str(IP), font=display.small_font)
+        display.draw_text((0, 25), str(Radio.state.current_station.name), font=display.small_font)
 
         display.update()
         time.sleep(0.10)
