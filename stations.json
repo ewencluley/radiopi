@@ -1,0 +1,18 @@
+[
+  {
+    "name": "BBC 6 Music",
+    "url": "http://a.files.bbci.co.uk/media/live/manifesto/audio/simulcast/hls/uk/sbr_high/llnw/bbc_6music.m3u8"
+  },
+  {
+    "name": "BBC Scotland",
+    "url": "http://a.files.bbci.co.uk/media/live/manifesto/audio/simulcast/hls/uk/sbr_high/llnw/bbc_radio_scotland_fm.m3u8"
+  },
+  {
+    "name": "Absolute 80s",
+    "url": "https://ais.absoluteradio.co.uk/absolute80shigh.aac"
+  },
+  {
+    "name": "Country Hits Radio",
+    "url": "https://stream-al.planetradio.co.uk/countryhits.aac"
+  }
+]
