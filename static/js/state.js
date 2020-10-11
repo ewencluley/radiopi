@@ -17,8 +17,17 @@ socket.on('state_update', function(data) {
         $("#radio").prop('checked', state.radio.on).change();
 
         let alarmTypeControl = $("#alarmType :input[value=" + state.alarm.type + "]");
-        alarmTypeControl.attr('checked', true)
+        alarmTypeControl.attr("checked", true)
         alarmTypeControl.parent().addClass('active')
+        $('#stationList').empty()
+        state.radio.stations.forEach(station => {
+            let stationElement = $(`<label class="btn btn-primary"><input type="radio" autocomplete="off">${station.name}</label>`).appendTo("#stationList")
+            $(stationElement).children(":input").change(() => changeStation(station.url))
+            if (state.radio.currentStation === station.url) {
+                stationElement.addClass("active")
+                stationElement.children("input").attr("checked", true)
+            }
+        })
 
         synchronize(new Date(Date.parse(state.time)))
         loading_complete()

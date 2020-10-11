@@ -5,6 +5,11 @@ $(document).ready(function() {
             return;
         }
         saving();
-        ajaxCallRequest("POST", "/api/v1/radio", JSON.stringify({"radioOn": $(this).prop('checked')}), saving_complete);
+        ajaxCallRequest("PATCH", "/api/v1/radio", JSON.stringify({"radioOn": $(this).prop('checked')}), saving_complete);
     });
 });
+
+function changeStation(url) {
+    ajaxCallRequest("PATCH", "/api/v1/radio", JSON.stringify({"currentStation": url}), saving_complete);
+    console.log("changed station to:", url)
+}

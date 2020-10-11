@@ -64,13 +64,17 @@ def stop_alarm():
         broadcast_state()
 
 
-@app.route("/api/v1/radio/", methods=['POST'])
+@app.route("/api/v1/radio/", methods=['PATCH'])
 def set_radio():
-    radio_on = request.json['radioOn']
+    radio_on = request.json.get('radioOn', Radio.is_playing())
     if radio_on and not Radio.is_playing():
         Radio.play()
     elif not radio_on and Radio.is_playing():
         Radio.stop()
+    try:
+        Radio.set_current_station(request.json.get('currentStation', Radio.state.current_station.url))
+    except Radio.UnknownStationException as e:
+        return json.dumps({'status': 'ERROR', 'message': e})
     broadcast_state()
     return json.dumps({'status': 'OK'})
 
@@ -94,7 +98,9 @@ def broadcast_state():
             'type': alarm.type.value
         },
         'radio': {
-            'on': Radio.is_playing()
+            'on': Radio.is_playing(),
+            'stations': [{'name': s.name, 'url': s.url} for s in Radio.get_stations()],
+            'currentStation': Radio.state.current_station.url
         }
     }
     socketio.emit('state_update', json.dumps(state))

@@ -71,3 +71,23 @@ def stop():
 
 def was_triggered_by_alarm():
     return state.triggered_by_alarm
+
+
+def get_stations():
+    return list(stations.values())
+
+
+def set_current_station(url):
+    try:
+        if state.current_station.url == url:
+            return
+        state.current_station = stations[url]
+        stop()
+        play()
+    except KeyError:
+        raise UnknownStationException
+
+
+class UnknownStationException(Exception):
+    def __init__(self, url):
+        super().__init__(f'No radio station registered for {url}')
