@@ -1,16 +1,22 @@
-#daysOfWeek .btn-secondary {
+.btn-secondary {
     background-color: aliceblue;
     color: darkslategrey;
 }
 
-#daysOfWeek .btn-secondary.active {
+.btn-secondary.focus {
+    background-color: aliceblue;
+    color: darkslategrey;
+    box-shadow: 0 0;
+}
+
+.btn-secondary.active {
     background-color: #6c757d;
     color: white;
 }
 
-#daysOfWeek .btn-secondary.focus {
-    /*background-color: aliceblue;*/
-    box-shadow: 0 0;
+.btn-secondary.focus.active {
+    color: white;
+    background-color: #6c757d;
 }
 
 form .col {

@@ -8,12 +8,17 @@ socket.on('state_update', function(data) {
         $("#alarmEnabled").prop('checked', state.alarm.enabled).change()
         for (let i = 0; i < 7; i++) {
             if (state.alarm.daysOfWeek.includes(i)) {
-                $("#daysOfWeek :input[value=" + i + "]").attr('checked', true)
-                $("#daysOfWeek :input[value=" + i + "]").parent().addClass('active')
+                let dayOfWeekCheckbox = $("#daysOfWeek :input[value=" + i + "]");
+                dayOfWeekCheckbox.attr('checked', true)
+                dayOfWeekCheckbox.parent().addClass('active')
             }
         }
         $('#stopAlarm').prop('disabled', !state.alarm.isSounding)
         $("#radio").prop('checked', state.radio.on).change();
+
+        let alarmTypeControl = $("#alarmType :input[value=" + state.alarm.type + "]");
+        alarmTypeControl.attr('checked', true)
+        alarmTypeControl.parent().addClass('active')
 
         synchronize(new Date(Date.parse(state.time)))
         loading_complete()

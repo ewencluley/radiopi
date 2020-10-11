@@ -4,6 +4,8 @@ from collections import namedtuple
 from json.decoder import JSONDecodeError
 import random
 
+from Clock import AlarmType
+
 Station = namedtuple("Station", "name url")
 stations = {}
 
@@ -44,14 +46,20 @@ def is_playing() -> bool:
         return False
 
 
-def play(triggered_by_alarm=False):
+def play(triggered_by_alarm=None):
     try:
         if triggered_by_alarm:
-            state.current_station = list(stations.values())[random.randrange(start=0, stop=len(stations))]
+            state.current_station = get_station_for_alarm(triggered_by_alarm)
         state.triggered_by_alarm = triggered_by_alarm
         subprocess.check_output(f'mpc clear && mpc add {state.current_station.url} && mpc play', shell=True, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError:
         print("Something went wrong while playing radio")
+
+
+def get_station_for_alarm(alarm):
+    if alarm.type is AlarmType.RANDOM_RADIO:
+        return list(stations.values())[random.randrange(start=0, stop=len(stations))]
+    return state.current_station
 
 
 def stop():

@@ -1,21 +1,37 @@
 from datetime import datetime, timedelta
-from collections import namedtuple
 import json
+from enum import Enum
 from json.decoder import JSONDecodeError
+from typing import NamedTuple, List
 
-Alarm = namedtuple("Alarm", "day_of_week, hour minute enabled duration_minutes")
+import typedload as typedload
+
+
+class AlarmType(Enum):
+    RANDOM_RADIO = 0
+    CURRENT_RADIO = 1
+
+
+class Alarm(NamedTuple):
+    type: AlarmType
+    hour: int = 0
+    minute: int = 0
+    enabled: bool = False
+    duration_minutes: int = 0
+    day_of_week: List[int] = []
+    type: AlarmType = AlarmType.RANDOM_RADIO
 
 
 class Clock:
     current_time = datetime.now()
     alarm: Alarm
-    alarm_in_progress:Alarm = None
+    alarm_in_progress: Alarm = None
 
     def __init__(self) -> None:
         self.alarm = Clock._load_alarm()
 
     def save_alarm(self):
-        serialized_alarm = json.dumps(self.alarm._asdict())
+        serialized_alarm = json.dumps(typedload.dump(self.alarm))
         with open("alarm.json", "w") as f:
             f.write(serialized_alarm)
 
@@ -24,9 +40,9 @@ class Clock:
         try:
             with open("alarm.json", "r") as f:
                 serialized_alarm = f.read()
-                return Alarm(**json.loads(serialized_alarm))
+                return typedload.load(json.loads(serialized_alarm), Alarm)
         except FileNotFoundError or TypeError or JSONDecodeError:
-            return Alarm(hour=0, minute=0, day_of_week=[], enabled=False, duration_minutes=0)
+            return Alarm()
 
 
 clock = Clock()

@@ -17,7 +17,8 @@ $(document).ready(function() {
             time: $("#alarmTime").val(),
             daysOfWeek: daysOfWeek,
             enabled: $("#alarmEnabled").prop('checked'),
-            durationMinutes: $("#alarmDuration").val()
+            durationMinutes: $("#alarmDuration").val(),
+            type: parseInt($("#alarmType :input:checked").val())
         }
         let data = JSON.stringify(alarm);
         ajaxCallRequest(method, url, data, function (data) {

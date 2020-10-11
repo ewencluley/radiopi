@@ -24,7 +24,7 @@ try:
 
         display.draw_text((20, 0), time_str, font=display.big_font)
         if Clock.maybe_trigger_alarm() and not Radio.is_playing():
-            Radio.play(triggered_by_alarm=True)
+            Radio.play(triggered_by_alarm=alarm)
             AdminServer.broadcast_state()
         Clock.maybe_stop_alarm()
         if not Clock.alarm_is_on() and Radio.is_playing() and Radio.was_triggered_by_alarm():

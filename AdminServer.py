@@ -45,7 +45,8 @@ def set_alarm():
             minute=int(time.split(':')[1]),
             day_of_week=data['daysOfWeek'],
             enabled=data['enabled'],
-            duration_minutes=int(data['durationMinutes'])
+            duration_minutes=int(data['durationMinutes']),
+            type=Clock.AlarmType(data['type'])
         )
     alarm = process_body(request.json)
     Clock.set_alarm(alarm)
@@ -89,7 +90,8 @@ def broadcast_state():
             'daysOfWeek': alarm.day_of_week,
             'enabled': alarm.enabled,
             'durationMinutes': alarm.duration_minutes,
-            'isSounding': Clock.alarm_is_on()
+            'isSounding': Clock.alarm_is_on(),
+            'type': alarm.type.value
         },
         'radio': {
             'on': Radio.is_playing()
