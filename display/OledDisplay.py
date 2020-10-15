@@ -8,11 +8,12 @@ class OledDisplay(Display):
     from display.drive import SSD1305, SPI
 
     # Raspberry Pi pin configuration:
-    RST = None  # on the PiOLED this pin isnt used
-    # Note the following are only used with SPI:
+    RST = None
     DC = 24
     SPI_PORT = 0
     SPI_DEVICE = 0
+
+    _dimmed = False
 
     def __init__(self) -> None:
         # 128x32 display with hardware SPI:
@@ -41,3 +42,6 @@ class OledDisplay(Display):
     def update(self):
         self.disp.image(self.image)
         self.disp.display()
+
+    def set_contrast(self, contrast):
+        self.disp.set_contrast(contrast)

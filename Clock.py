@@ -60,6 +60,9 @@ def get_datetime():
     return clock.current_time.isoformat()
 
 
+def is_night():
+    return clock.current_time.hour > 10 or clock.current_time.hour < 8
+
 def maybe_trigger_alarm():
     if clock.alarm_in_progress or not clock.alarm or not clock.alarm.enabled:
         return False

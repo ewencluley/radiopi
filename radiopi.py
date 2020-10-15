@@ -1,6 +1,5 @@
 #!/usr/bin/python3
 
-import subprocess
 import time
 
 import AdminServer
@@ -15,10 +14,10 @@ except ModuleNotFoundError:
     from display.Display import Display
     display = Display()
 
+display.set_contrast(1)
 try:
     while True:
         display.clear()
-
         Clock.update()
         time_str = Clock.get_time()
         alarm = Clock.get_alarm()

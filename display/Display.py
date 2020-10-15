@@ -10,3 +10,6 @@ class Display:
 
     def update(self):
         pass
+
+    def set_contrast(self, contrast):
+        pass

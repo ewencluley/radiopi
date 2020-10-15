@@ -188,8 +188,8 @@ class SSD1305Base(object):
         0 and 255."""
         if contrast < 0 or contrast > 255:
             raise ValueError('Contrast must be a value from 0 to 255 (inclusive).')
-        self.self.command(SSD1305_SETCONTRAST)
-        self.self.command(contrast)
+        self.command(SSD1305_SETCONTRAST)
+        self.command(contrast)
 
     def dim(self, dim):
         """Adjusts contrast to dim the display if dim is True, otherwise sets the
