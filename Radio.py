@@ -82,8 +82,9 @@ def set_current_station(url):
         if state.current_station.url == url:
             return
         state.current_station = stations[url]
-        stop()
-        play()
+        if is_playing():
+            stop()
+            play()
     except KeyError:
         raise UnknownStationException
 
