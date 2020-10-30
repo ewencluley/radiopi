@@ -7,6 +7,13 @@ $(document).ready(function() {
         saving();
         ajaxCallRequest("PATCH", "/api/v1/radio", JSON.stringify({"radioOn": $(this).prop('checked')}), saving_complete);
     });
+    $("#volume").change(function() {
+        if (isLoading()) {
+            return;
+        }
+        saving();
+        ajaxCallRequest("PATCH", "/api/v1/radio", JSON.stringify({"volume": $(this).val()}), saving_complete);
+    });
 });
 
 function changeStation(url) {

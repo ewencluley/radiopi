@@ -75,6 +75,9 @@ def set_radio():
         Radio.set_current_station(request.json.get('currentStation', Radio.state.current_station.url))
     except Radio.UnknownStationException as e:
         return json.dumps({'status': 'ERROR', 'message': e})
+
+    volume = request.json.get('volume', Radio.get_volume())
+    Radio.set_volume(int(volume))
     broadcast_state()
     return json.dumps({'status': 'OK'})
 
@@ -100,7 +103,8 @@ def broadcast_state():
         'radio': {
             'on': Radio.is_playing(),
             'stations': [{'name': s.name, 'url': s.url} for s in Radio.get_stations()],
-            'currentStation': Radio.state.current_station.url
+            'currentStation': Radio.state.current_station.url,
+            'volume': Radio.get_volume()
         }
     }
     socketio.emit('state_update', json.dumps(state))

@@ -15,6 +15,7 @@ socket.on('state_update', function(data) {
         }
         $('#stopAlarm').prop('disabled', !state.alarm.isSounding)
         $("#radio").prop('checked', state.radio.on).change();
+        $("#volume").val(state.radio.volume);
 
         let alarmTypeControl = $("#alarmType :input[value=" + state.alarm.type + "]");
         alarmTypeControl.attr("checked", true)

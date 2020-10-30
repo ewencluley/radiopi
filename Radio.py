@@ -2,6 +2,7 @@ import json
 import subprocess
 from collections import namedtuple
 from json.decoder import JSONDecodeError
+import alsaaudio
 import random
 
 from Clock import AlarmType
@@ -27,6 +28,7 @@ load_stations()
 
 
 class RadioState:
+    mixer = alsaaudio.Mixer('PCM')
     triggered_by_alarm = False
     current_url = subprocess.check_output(f' mpc -f "%file%" playlist', shell=True, stderr=subprocess.STDOUT).decode("utf-8").strip()
     if current_url:
@@ -87,6 +89,14 @@ def set_current_station(url):
             play()
     except KeyError:
         raise UnknownStationException
+
+
+def get_volume():
+    return state.mixer.getvolume()[0]
+
+
+def set_volume(volume):
+    state.mixer.setvolume(volume)
 
 
 class UnknownStationException(Exception):
