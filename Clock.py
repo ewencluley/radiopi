@@ -13,7 +13,6 @@ class AlarmType(Enum):
 
 
 class Alarm(NamedTuple):
-    type: AlarmType
     hour: int = 0
     minute: int = 0
     enabled: bool = False
