@@ -40,14 +40,6 @@
     "url": "http://hi5.death.fm/"
   },
   {
-    "name": "Latina Fiesta",
-    "url": "http://d3-soundcast-edge-4.infomaniak.ch/latinafiesta.mp3"
-  },
-  {
-    "name": "LBC UK",
-    "url": "https://media-ssl.musicradio.com/LBCUK"
-  },
-  {
     "name": "Vibes FM 93.8",
     "url": "http://s02.whooshserver.net:9091/live?type=.mp3"
   }
