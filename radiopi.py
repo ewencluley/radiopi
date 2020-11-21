@@ -5,6 +5,7 @@ import time
 import AdminServer
 import Clock
 import Radio
+import LED
 
 AdminServer.start_in_background()
 try:
@@ -33,10 +34,12 @@ try:
             AdminServer.broadcast_state()
         if Clock.alarm_is_on() and Clock.on_beat():
             display.draw_text((0, 16), '*** ALARM ***', font=display.small_font)
+            LED.on()
         elif alarm.enabled:
             display.draw_text((0, 16), alarm_str, font=display.small_font)
-
-        display.draw_text((0, 25), str(Radio.state.current_station.name), font=display.small_font)
+            LED.off()
+        current_radio_station = str(Radio.state.current_station.name)
+        display.draw_text((0, 25), f'{current_radio_station} - {Radio.get_volume()}%', font=display.small_font)
 
         display.update()
         time.sleep(0.10)

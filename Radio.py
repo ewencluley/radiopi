@@ -2,8 +2,13 @@ import json
 import subprocess
 from collections import namedtuple
 from json.decoder import JSONDecodeError
+from threading import Thread
+
+from Volume import Volume
+
 import alsaaudio
 import random
+import time
 
 from Clock import AlarmType
 
@@ -27,8 +32,17 @@ def load_stations():
 load_stations()
 
 
+def set_volume(volume):
+    try:
+        state.mixer.setvolume(volume)
+    except NameError:
+        print("Radio state not yet set")
+
+
 class RadioState:
     mixer = alsaaudio.Mixer('PCM')
+
+    Volume(set_volume, mixer.getvolume()[0])
     triggered_by_alarm = False
     current_url = subprocess.check_output(f' mpc -f "%file%" playlist', shell=True, stderr=subprocess.STDOUT).decode("utf-8").strip()
     if current_url:
@@ -38,7 +52,6 @@ class RadioState:
 
 
 state = RadioState()
-
 
 def is_playing() -> bool:
     try:
@@ -95,8 +108,12 @@ def get_volume():
     return state.mixer.getvolume()[0]
 
 
-def set_volume(volume):
-    state.mixer.setvolume(volume)
+def fadein(to_volume):
+    def do_fadein():
+        for i in range(0, to_volume):
+            set_volume(i)
+            time.sleep(0.2)
+    Thread(target=do_fadein, daemon=True).start()
 
 
 class UnknownStationException(Exception):
