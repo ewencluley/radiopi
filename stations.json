@@ -24,10 +24,6 @@
     "url": "http://icecast.thisisdax.com/HeartSussex"
   },
   {
-    "name": "Pirate Radio (Cornwall)",
-    "url": "http://str1.sad.ukrd.com/pirate.mp3"
-  },
-  {
     "name": "Jazz FM",
     "url": "http://tx.planetradio.co.uk/icecast.php?i=jazzhigh.aac"
   },
@@ -38,9 +34,5 @@
   {
     "name": "Death.fm",
     "url": "http://hi5.death.fm/"
-  },
-  {
-    "name": "Vibes FM 93.8",
-    "url": "http://s02.whooshserver.net:9091/live?type=.mp3"
   }
 ]
