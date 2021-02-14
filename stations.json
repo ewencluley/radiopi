@@ -24,6 +24,10 @@
     "url": "http://icecast.thisisdax.com/HeartSussex"
   },
   {
+    "name": "Pirate Radio (Cornwall)",
+    "url": "http://str1.sad.ukrd.com/pirate.mp3"
+  },
+  {
     "name": "Jazz FM",
     "url": "http://tx.planetradio.co.uk/icecast.php?i=jazzhigh.aac"
   },
@@ -34,5 +38,25 @@
   {
     "name": "Death.fm",
     "url": "http://hi5.death.fm/"
+  },
+  {
+    "name": "Indie Pop Rocks",
+    "url": "http://ice6.somafm.com/indiepop-128-mp3"
+  },
+  {
+    "name": "Classic FM",
+    "url": "https://media-ssl.musicradio.com/ClassicFM"
+  },
+  {
+    "name": "Kerrang",
+    "url": "https://stream-al.planetradio.co.uk/kerrang.aac"
+  },
+  {
+    "name": "BBC Radio 2",
+    "url": "http://bbcmedia.ic.llnwd.net/stream/bbcmedia_radio2_mf_p"
+  },
+  {
+    "name": "Absolute 90s",
+    "url": "https://ais.absoluteradio.co.uk/absolute90shigh.aac"
   }
 ]
