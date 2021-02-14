@@ -1,11 +1,3 @@
-.container {
-    background-color: #111111;
-}
-
-body {
-    background-color: #111111;
-}
-
 .btn-secondary {
     background-color: aliceblue;
     color: darkslategrey;
@@ -13,7 +5,7 @@ body {
 
 .btn-secondary.focus {
     background-color: aliceblue;
-    color: darkslategrey;
+    color: #2f4f4f;
     box-shadow: 0 0;
 }
 
@@ -50,4 +42,8 @@ form {
 #volume {
     width: 100%;
     height: 100%;
+}
+
+.jumbotron {
+    margin-top: 5px;
 }
