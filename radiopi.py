@@ -6,6 +6,7 @@ import AdminServer
 import Clock
 import Radio
 import LED
+from Button import Button
 
 AdminServer.start_in_background()
 try:
@@ -15,8 +16,19 @@ except ModuleNotFoundError:
     from display.Display import Display
     display = Display()
 
+
+def on_button_release(held_for):
+    if held_for > 2 and Clock.alarm_is_on():
+        Clock.stop_alarm()
+
+
+def on_button_pressed():
+    pass
+
+
 display.set_contrast(1)
 try:
+    #button = Button(20, on_button_pressed, on_button_release)
     while True:
         display.clear()
         Clock.update()
@@ -28,7 +40,9 @@ try:
         if Clock.maybe_trigger_alarm() and not Radio.is_playing():
             volume = Radio.get_volume()
             Radio.set_volume(0)
-            Radio.play(triggered_by_alarm=alarm)
+            if not Radio.play(triggered_by_alarm=alarm):
+                print("Failed to play chosen station, playing fallback mp3.")
+                Radio.play_mp3('radioError.mp3')
             Radio.fadein(volume)
             AdminServer.broadcast_state()
         Clock.maybe_stop_alarm()

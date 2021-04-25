@@ -4,6 +4,8 @@ from collections import namedtuple
 from json.decoder import JSONDecodeError
 from threading import Thread
 
+import os
+
 from Volume import Volume
 
 import alsaaudio
@@ -67,8 +69,17 @@ def play(triggered_by_alarm=None):
             state.current_station = get_station_for_alarm(triggered_by_alarm)
         state.triggered_by_alarm = bool(triggered_by_alarm)
         subprocess.check_output(f'mpc clear && mpc add {state.current_station.url} && mpc play', shell=True, stderr=subprocess.STDOUT)
+        status = subprocess.getoutput(f'mpc status', shell=True, stderr=subprocess.STDOUT)
+        if 'ERROR:' in status:
+            return False
     except subprocess.CalledProcessError:
         print("Something went wrong while playing radio")
+        return False
+
+
+def play_mp3(file):
+    state.current_station = Station(os.path.basename(file), file)
+    play()
 
 
 def get_station_for_alarm(alarm):
