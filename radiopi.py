@@ -29,7 +29,7 @@ try:
         if Clock.maybe_trigger_alarm() and not Radio.is_playing():
             volume = Radio.get_volume()
             Radio.set_volume(0)
-            if not Radio.play(triggered_by_alarm=alarm):
+            if not Radio.play_radio(triggered_by_alarm=alarm):
                 print("Failed to play chosen station, playing fallback mp3.")
                 Radio.play_mp3('radioError.mp3')
             Radio.fadein(volume)

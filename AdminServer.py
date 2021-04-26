@@ -68,7 +68,7 @@ def stop_alarm():
 def set_radio():
     radio_on = request.json.get('radioOn', Radio.is_playing())
     if radio_on and not Radio.is_playing():
-        Radio.play()
+        Radio.play_radio()
     elif not radio_on and Radio.is_playing():
         Radio.stop()
     try:

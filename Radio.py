@@ -46,8 +46,8 @@ class RadioState:
 
     Volume(set_volume, mixer.getvolume()[0])
     triggered_by_alarm = False
-    current_url = subprocess.check_output(f' mpc -f "%file%" playlist', shell=True, stderr=subprocess.STDOUT).decode("utf-8").strip()
-    if current_url:
+    current_url = subprocess.check_output(f'mpc -f "%file%" playlist', shell=True, stderr=subprocess.STDOUT).decode("utf-8").strip()
+    if current_url and current_url in stations.keys():
         current_station = stations[current_url]
     else:
         current_station = list(stations.values())[0]
@@ -63,23 +63,29 @@ def is_playing() -> bool:
         return False
 
 
-def play(triggered_by_alarm=None):
+def play():
     try:
-        if triggered_by_alarm:
-            state.current_station = get_station_for_alarm(triggered_by_alarm)
-        state.triggered_by_alarm = bool(triggered_by_alarm)
         subprocess.check_output(f'mpc clear && mpc add {state.current_station.url} && mpc play', shell=True, stderr=subprocess.STDOUT)
-        status = subprocess.getoutput(f'mpc status', shell=True, stderr=subprocess.STDOUT)
+        time.sleep(0.5)
+        status = subprocess.getoutput(f'mpc status')
         if 'ERROR:' in status:
             return False
     except subprocess.CalledProcessError:
         print("Something went wrong while playing radio")
         return False
+    return True
+
+
+def play_radio(triggered_by_alarm=None):
+    if triggered_by_alarm:
+        state.current_station = get_station_for_alarm(triggered_by_alarm)
+    state.triggered_by_alarm = bool(triggered_by_alarm)
+    return play()
 
 
 def play_mp3(file):
     state.current_station = Station(os.path.basename(file), file)
-    play()
+    return play()
 
 
 def get_station_for_alarm(alarm):
