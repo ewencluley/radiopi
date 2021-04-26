@@ -1,11 +1,15 @@
 [
   {
     "name": "BBC 6 Music",
-    "url": "http://a.files.bbci.co.uk/media/live/manifesto/audio/simulcast/hls/uk/sbr_high/llnw/bbc_6music.m3u8"
+    "url": "http://stream.live.vc.bbcmedia.co.uk/bbc_6music"
   },
   {
     "name": "BBC Scotland",
-    "url": "http://a.files.bbci.co.uk/media/live/manifesto/audio/simulcast/hls/uk/sbr_high/llnw/bbc_radio_scotland_fm.m3u8"
+    "url": "http://stream.live.vc.bbcmedia.co.uk/bbc_radio_scotland_fm"
+  },
+  {
+    "name": "BBC Radio 3",
+    "url": "http://stream.live.vc.bbcmedia.co.uk/bbc_radio_three"
   },
   {
     "name": "Absolute 80s",
@@ -22,10 +26,6 @@
   {
     "name": "Heart Sussex",
     "url": "http://icecast.thisisdax.com/HeartSussex"
-  },
-  {
-    "name": "Pirate Radio (Cornwall)",
-    "url": "http://str1.sad.ukrd.com/pirate.mp3"
   },
   {
     "name": "Jazz FM",
