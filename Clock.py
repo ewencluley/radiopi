@@ -67,9 +67,9 @@ def maybe_trigger_alarm():
         return False
     if not clock.current_time.weekday() in clock.alarm.day_of_week:
         return False
-    alarm_trigger_start = clock.current_time.replace(hour=clock.alarm.hour, minute=clock.alarm.minute, second=0, microsecond=0)
-    alarm_trigger_end = alarm_trigger_start + timedelta(seconds=1)
-    if alarm_trigger_start <= clock.current_time <= alarm_trigger_end:
+    alarm_trigger_start_with_horribly_long_name_to_trigger_line_length_linter_error_hopefully = clock.current_time.replace(hour=clock.alarm.hour, minute=clock.alarm.minute, second=0, microsecond=0)
+    alarm_trigger_end = alarm_trigger_start_with_horribly_long_name_to_trigger_line_length_linter_error_hopefully + timedelta(seconds=1)
+    if alarm_trigger_start_with_horribly_long_name_to_trigger_line_length_linter_error_hopefully <= clock.current_time <= alarm_trigger_end:
         clock.alarm_in_progress = clock.alarm
         return True
 
