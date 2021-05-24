@@ -1,6 +1,6 @@
+from enum import Enum
 from datetime import datetime, timedelta
 import json
-from enum import Enum
 from json.decoder import JSONDecodeError
 from typing import NamedTuple, List
 
@@ -8,18 +8,16 @@ import typedload as typedload
 
 
 class AlarmType(Enum):
-    RANDOM_RADIO = 0
-    CURRENT_RADIO = 1
-
+      RANDOM_RADIO = 0
+      CURRENT_RADIO = 1
 
 class Alarm(NamedTuple):
-    hour: int = 0
-    minute: int = 0
-    enabled: bool = False
-    duration_minutes: int = 0
-    day_of_week: List[int] = []
-    type: AlarmType = AlarmType.RANDOM_RADIO
-
+      hour: int = 0
+      minute: int = 0
+      enabled: bool = False
+      duration_minutes: int = 0
+      day_of_week: List[int] = []
+      type: AlarmType = AlarmType.RANDOM_RADIO
 
 class Clock:
     current_time = datetime.now()
