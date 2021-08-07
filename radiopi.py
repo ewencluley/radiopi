@@ -16,7 +16,7 @@ except ModuleNotFoundError:
     display = Display()
 
 
-display.set_contrast(1)
+display.set_contrast(0)
 try:
     while True:
         display.clear()
