@@ -28,7 +28,7 @@ sudo pip3 install spidev
 
 ### RadioPi Dependencies
 ```shell script
-sudo apt-get install python-alsaaudio
+sudo apt-get install python-alsaaudio python3-typedload
 sudo pip3 install flask
 sudo pip3 install flask-socketio 
 ```
