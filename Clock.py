@@ -4,7 +4,7 @@ from enum import Enum
 from json.decoder import JSONDecodeError
 from typing import NamedTuple, List
 
-import typedload as typedload
+import typedload
 
 
 class AlarmType(Enum):
