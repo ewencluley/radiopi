@@ -1,0 +1,7 @@
+numpy
+RPi.GPIO
+spidev
+typedload
+pyalsaaudio
+flask
+flask-socketio
