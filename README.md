@@ -19,9 +19,7 @@ Details on the SSD1305 display can be found here: http://www.waveshare.com/wiki/
 To install the SSD1305 drivers on the raspberry pi you should run:
 ```shell script
 sudo apt-get update
-sudo apt-get install python3-pip
-sudo apt-get install python3-pil
-sudo apt-get install python3-numpy
+sudo apt-get install python3-pip python3-pil python3-numpy
 sudo pip3 install RPi.GPIO
 sudo pip3 install spidev
 ```
