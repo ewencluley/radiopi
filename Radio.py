@@ -1,5 +1,6 @@
 import json
 import subprocess
+import logging
 from collections import namedtuple
 from json.decoder import JSONDecodeError
 from threading import Thread
@@ -16,9 +17,13 @@ from Clock import AlarmType
 
 Station = namedtuple("Station", "name url")
 stations = {}
+recent_count = 3
+
+logging.basicConfig(level=logging.INFO)
 
 
 def load_stations():
+    logging.info("Loading stations")
     try:
         with open("stations.json", "r") as f:
             for s in json.loads(f.read()):
@@ -42,18 +47,34 @@ def set_volume(volume):
 
 
 class RadioState:
-    mixer = alsaaudio.Mixer('PCM')
+    def __init__(self):
+        self.mixer = alsaaudio.Mixer('PCM')
 
-    Volume(set_volume, mixer.getvolume()[0])
-    triggered_by_alarm = False
-    current_url = subprocess.check_output(f'mpc -f "%file%" playlist', shell=True, stderr=subprocess.STDOUT).decode("utf-8").strip()
-    if current_url and current_url in stations.keys():
-        current_station = stations[current_url]
-    else:
-        current_station = list(stations.values())[0]
+        Volume(set_volume, self.mixer.getvolume()[0])
+        self.triggered_by_alarm = False
+        self.current_url = subprocess.check_output(f'mpc -f "%file%" playlist', shell=True, stderr=subprocess.STDOUT).decode("utf-8").strip()
+        self.previous_stations = []
+        if self.current_url and self.current_url in stations.keys():
+            self.current_station = stations[self.current_url]
+        else:
+            self.current_station = list(stations.values())[0]
+
+    def get_recent_stations(self):
+        logging.info("all previous stations: %s", self.previous_stations)
+        if len(self.previous_stations) > recent_count:
+            logging.info("truncated previous stations: %s", self.previous_stations[-recent_count:])
+            return set(self.previous_stations[-recent_count:])
+        return set(self.previous_stations)
+
+    def change_station(self, station):
+        if station == self.current_station:
+            return
+        self.previous_stations.append(self.current_station)
+        self.current_station = station
 
 
 state = RadioState()
+
 
 def is_playing() -> bool:
     try:
@@ -78,20 +99,41 @@ def play():
 
 def play_radio(triggered_by_alarm=None):
     if triggered_by_alarm:
-        state.current_station = get_station_for_alarm(triggered_by_alarm)
+        logging.info("Playing radio from alarm")
+        state.change_station(get_station_for_alarm(triggered_by_alarm))
     state.triggered_by_alarm = bool(triggered_by_alarm)
     return play()
 
 
 def play_mp3(file):
-    state.current_station = Station(os.path.basename(file), file)
+    state.change_station(Station(os.path.basename(file), file))
     return play()
 
 
 def get_station_for_alarm(alarm):
+    logging.info("playing alarm %s", alarm.type)
     if alarm.type is AlarmType.RANDOM_RADIO:
-        return list(stations.values())[random.randrange(start=0, stop=len(stations))]
+        return get_random_unplayed_station()
+
     return state.current_station
+
+
+def get_random_unplayed_station():
+    excluded = state.get_recent_stations()
+    logging.info("recently played stations: %s", excluded)
+    station = get_random_station()
+    attempts = 0
+    while station in excluded and attempts < 10:
+        logging.info("station '%s' played recently, try getting another", station.name)
+        station = get_random_station()
+        attempts += 1
+    logging.info("settling on station '%s'", station.name)
+    return station
+
+
+def get_random_station():
+    logging.info("Getting random station")
+    return list(stations.values())[random.randrange(start=0, stop=len(stations))]
 
 
 def stop():
@@ -113,7 +155,7 @@ def set_current_station(url):
     try:
         if state.current_station.url == url:
             return
-        state.current_station = stations[url]
+        state.change_station(stations[url])
         if is_playing():
             stop()
             play()
