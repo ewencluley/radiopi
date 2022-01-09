@@ -13,7 +13,8 @@
   },
   {
     "name": "Absolute 80s",
-    "url": "https://ais.absoluteradio.co.uk/absolute80shigh.aac"
+    "url": "https://ais.absoluteradio.co.uk/absolute80shigh.aac",
+    "enabled": false
   },
   {
     "name": "Country Hits Radio",
@@ -37,7 +38,8 @@
   },
   {
     "name": "Death.fm",
-    "url": "http://hi5.death.fm/"
+    "url": "http://hi5.death.fm/",
+    "enabled": false
   },
   {
     "name": "Indie Pop Rocks",
@@ -57,6 +59,7 @@
   },
   {
     "name": "Absolute 90s",
-    "url": "https://ais.absoluteradio.co.uk/absolute90shigh.aac"
+    "url": "https://ais.absoluteradio.co.uk/absolute90shigh.aac",
+    "enabled": false
   }
 ]

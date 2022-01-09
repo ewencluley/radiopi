@@ -6,6 +6,7 @@ from json.decoder import JSONDecodeError
 from threading import Thread
 
 import os
+from typing import NamedTuple
 
 from Volume import Volume
 
@@ -15,7 +16,13 @@ import time
 
 from Clock import AlarmType
 
-Station = namedtuple("Station", "name url")
+
+class Station(NamedTuple):
+    name: str
+    url: str
+    enabled: bool = True
+
+
 stations = {}
 recent_count = 3
 
@@ -28,7 +35,8 @@ def load_stations():
         with open("stations.json", "r") as f:
             for s in json.loads(f.read()):
                 station = Station(**s)
-                stations[station.url] = station
+                if station.enabled:
+                    stations[station.url] = station
     except FileNotFoundError or TypeError or JSONDecodeError:
         default_station = Station(name='BBC 6 Music',
                                   url='http://a.files.bbci.co.uk/media/live/manifesto/audio/simulcast/hls/uk/sbr_high/llnw/bbc_6music.m3u8')
