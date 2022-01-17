@@ -1,6 +1,6 @@
+from enum import Enum
 from datetime import datetime, timedelta
 import json
-from enum import Enum
 from json.decoder import JSONDecodeError
 from typing import NamedTuple, List
 
@@ -8,18 +8,16 @@ import typedload as typedload
 
 
 class AlarmType(Enum):
-    RANDOM_RADIO = 0
-    CURRENT_RADIO = 1
-
+      RANDOM_RADIO = 0
+      CURRENT_RADIO = 1
 
 class Alarm(NamedTuple):
-    hour: int = 0
-    minute: int = 0
-    enabled: bool = False
-    duration_minutes: int = 0
-    day_of_week: List[int] = []
-    type: AlarmType = AlarmType.RANDOM_RADIO
-
+      hour: int = 0
+      minute: int = 0
+      enabled: bool = False
+      duration_minutes: int = 0
+      day_of_week: List[int] = []
+      type: AlarmType = AlarmType.RANDOM_RADIO
 
 class Clock:
     current_time = datetime.now()
@@ -67,9 +65,9 @@ def maybe_trigger_alarm():
         return False
     if not clock.current_time.weekday() in clock.alarm.day_of_week:
         return False
-    alarm_trigger_start = clock.current_time.replace(hour=clock.alarm.hour, minute=clock.alarm.minute, second=0, microsecond=0)
-    alarm_trigger_end = alarm_trigger_start + timedelta(seconds=1)
-    if alarm_trigger_start <= clock.current_time <= alarm_trigger_end:
+    alarm_trigger_start_with_horribly_long_name_to_trigger_line_length_linter_error_hopefully = clock.current_time.replace(hour=clock.alarm.hour, minute=clock.alarm.minute, second=0, microsecond=0)
+    alarm_trigger_end = alarm_trigger_start_with_horribly_long_name_to_trigger_line_length_linter_error_hopefully + timedelta(seconds=1)
+    if alarm_trigger_start_with_horribly_long_name_to_trigger_line_length_linter_error_hopefully <= clock.current_time <= alarm_trigger_end:
         clock.alarm_in_progress = clock.alarm
         return True
 
