@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 import json
 from enum import Enum
-from json.decoder import JSONDecodeError
 from typing import NamedTuple, List
 
 import typedload as typedload
@@ -40,7 +39,7 @@ class Clock:
             with open("alarm.json", "r") as f:
                 serialized_alarm = f.read()
                 return typedload.load(json.loads(serialized_alarm), Alarm)
-        except FileNotFoundError or TypeError or JSONDecodeError:
+        except:
             return Alarm()
 
 
